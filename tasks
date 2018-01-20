@@ -1,0 +1,20 @@
+#!/bin/bash
+
+command="$1"
+case "${command}" in
+  run)
+      docker run -d -p 8088:80 --name www-ait\
+        -v "${PWD}":/usr/local/apache2/htdocs/\
+        httpd:2.4.29-alpine
+      exit $?
+      ;;
+  destroy)
+      docker stop www-ait; docker rm www-ait
+      exit $?
+      ;;
+  *)
+      echo "Invalid command: '${command}'"
+      exit 1
+      ;;
+esac
+set +e
